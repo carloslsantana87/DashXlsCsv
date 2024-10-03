@@ -1,0 +1,88 @@
+.app-container {
+  background-image: url('../../public/midias/wyntech.jpeg'); /* Caminho da sua imagem */
+  background-size: cover; /* Cobre toda a área do container */
+  background-position: center; /* Centraliza a imagem */
+  padding: 20px;
+  color: #fff; /* Cor do texto */
+  min-height: 100vh; /* Garante que ocupe pelo menos 100% da altura da tela */
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.8); /* Fundo branco com transparência */
+  color: #662626;
+  cursor: pointer;
+  border-radius: 5px; /* Bordas arredondadas */
+  transition: background-color 0.3s, transform 0.2s; /* Transições suaves */
+}
+
+.tab-button:hover {
+  background-color: rgba(240, 240, 240, 0.9); /* Fundo ao passar o mouse */
+  transform: scale(1.05); /* Leve aumento ao passar o mouse */
+}
+
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container {
+  flex: 1;
+  padding: 20px;
+  border-radius: 8px; /* Bordas arredondadas */
+  margin: 5px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.7); /* Fundo branco com transparência */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  color: #333; /* Cor do texto padrão */
+  overflow: hidden; /* Evita overflow em casos de conteúdo excessivo */
+  display: flex; /* Usar flexbox para o container */
+  flex-direction: column; /* Para alinhar o gráfico em coluna */
+  height: 100%; /* Faz o container ocupar toda a altura disponível */
+}
+
+.chart-container {
+  flex-grow: 1; /* Permite que o gráfico ocupe o espaço disponível */
+  display: flex; /* Flex para centralizar o gráfico */
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  width: 100%; /* Garante que o container do gráfico preencha 100% da largura */
+}
+
+canvas {
+  width: 100% !important; /* Garante que o gráfico preencha 100% da largura do container */
+  height: auto; /* Mantém a proporção do gráfico */
+}
+
+.updating-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.8); /* Fundo com transparência */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  font-size: 20px;
+  text-align: center;
+  z-index: 1000; /* Garante que a mensagem fique em cima de outros elementos */
+  color: #333; /* Cor do texto da mensagem */
+}
+
+/* Classe para o botão oculto */
+.hidden-button {
+  display: none; /* Mantém o botão oculto */
+}
