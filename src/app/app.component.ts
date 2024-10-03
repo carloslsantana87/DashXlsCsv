@@ -36,12 +36,12 @@ export class AppComponent implements OnInit {
     this.selectedTab = tab;
   }
 
-  updateGraphs(): void {
+  async updateGraphs(): Promise<void> {
     this.isUpdating = true; 
     console.log('Atualizando gráficos...');
 
     // Toca o som sempre que os gráficos são atualizados
-    this.playSound(); 
+    await this.playSound(); 
 
     setTimeout(() => {
       this.isUpdating = false; 
@@ -49,7 +49,11 @@ export class AppComponent implements OnInit {
     }, 1000); 
   }
 
-  playSound(): void {
+  async playSound(): Promise<void> {
+    // Espera o contexto de áudio ser iniciado
+    await Tone.start();
+    console.log('Contexto de áudio iniciado');
+
     const player = new Tone.Player('midias/som.mp3').toDestination(); 
     player.autostart = true; 
     console.log('Som reproduzido com sucesso!');
