@@ -140,22 +140,25 @@ export class GraficosabertosComponent {
     const processedData = filteredData.map((row: any) => ({
       group: row['T'],
       subGroup: row['Q'],
-      count: 1
+      count: 1,
+      additionalInfo: row['B']
     }));
 
     const groupedData = processedData.reduce((acc, point) => {
       const key = `${point.group} - ${point.subGroup}`;
       if (!acc[key]) {
-        acc[key] = { y: 0 };
+        acc[key] = { y: 0, additionalInfo: [] };
       }
       acc[key].y += point.count;
+      acc[key].additionalInfo.push(point.additionalInfo);
       return acc;
-    }, {} as Record<string, { y: number }>);
+    }, {} as Record<string, { y: number; additionalInfo: string[] }>);
 
     const labels = Object.keys(groupedData).sort();
     const dataset = labels.map(label => ({
       x: label,
-      y: groupedData[label].y
+      y: groupedData[label].y,
+      additionalInfo: groupedData[label].additionalInfo
     }));
 
     const maxYValue = Math.max(...dataset.map(dataPoint => dataPoint.y));
@@ -170,7 +173,7 @@ export class GraficosabertosComponent {
       this.chart.destroy();
     }
 
-    this.chart = new Chart<'bar', { x: string; y: number }[], unknown>(ctx, {
+    this.chart = new Chart<'bar', { x: string; y: number; additionalInfo: string[] }[], unknown>(ctx, {
       type: 'bar',
       data: {
         labels: labels,
@@ -223,8 +226,14 @@ export class GraficosabertosComponent {
           tooltip: {
             callbacks: {
               label: (context) => {
-                const dataPoint = context.raw as { x: string; y: number };
-                return `Grupo Solucionador - UF: ${dataPoint.x}, Contagem: ${dataPoint.y}`;
+                const dataPoint = context.raw as { x: string; y: number; additionalInfo: string[] };
+                const additionalDataLines = dataPoint.additionalInfo.map(info => `• ${info}`);
+                return [
+                  `Grupo Solucionador - UF: ${dataPoint.x}`,
+                  `Contagem: ${dataPoint.y}`,
+                  `Chamados:`,
+                  ...additionalDataLines // Exibe detalhes um abaixo do outro
+                ];
               }
             }
           }

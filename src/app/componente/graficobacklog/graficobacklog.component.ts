@@ -72,9 +72,9 @@ export class GraficobacklogComponent {
     const filteredData = data.filter((row: any) => {
       return row['CL'] === "Caixa Econômica Federal - TELECOM - 4323/2023";
     });
-
+  
     console.log(filteredData);
-
+  
     if (filteredData.length === 0) {
       this.noDataMessage = 'NÃO HÁ CHAMADOS ABERTOS PARA ESTA DATA!';
       if (this.chart) {
@@ -84,41 +84,45 @@ export class GraficobacklogComponent {
     } else {
       this.noDataMessage = null;
     }
-
+  
+    // Processar dados para incluir a coluna B (supondo que seja `row['B']`)
     const processedData = filteredData.map((row: any) => ({
       group: row['T'],
       subGroup: row['Q'],
-      count: 1
+      count: 1,
+      additionalInfo: row['B'] // Armazenando os dados da coluna B
     }));
-
+  
     const groupedData = processedData.reduce((acc, point) => {
       const key = `${point.group} - ${point.subGroup}`;
       if (!acc[key]) {
-        acc[key] = { y: 0 };
+        acc[key] = { y: 0, additionalInfo: [] }; // Armazenando informações adicionais
       }
       acc[key].y += point.count;
+      acc[key].additionalInfo.push(point.additionalInfo); // Adicionando dados da coluna B
       return acc;
-    }, {} as Record<string, { y: number }>);
-
+    }, {} as Record<string, { y: number; additionalInfo: string[] }>);
+  
     const labels = Object.keys(groupedData).sort();
     const dataset = labels.map(label => ({
       x: label,
-      y: groupedData[label].y
+      y: groupedData[label].y,
+      additionalInfo: groupedData[label].additionalInfo // Incluindo informações adicionais
     }));
-
+  
     const maxYValue = Math.max(...dataset.map(dataPoint => dataPoint.y));
     const ctx = document.getElementById('barChartbacklog') as HTMLCanvasElement | null;
-
+  
     if (!ctx) {
       console.error('Elemento canvas não encontrado');
       return;
     }
-
+  
     if (this.chart) {
       this.chart.destroy();
     }
-
-    this.chart = new Chart<'bar', { x: string; y: number }[], unknown>(ctx, {
+  
+    this.chart = new Chart<'bar', { x: string; y: number; additionalInfo: string[] }[], unknown>(ctx, {
       type: 'bar',
       data: {
         labels: labels,
@@ -159,7 +163,6 @@ export class GraficobacklogComponent {
             type: 'linear',
             title: {
               display: true,
-
             },
             min: 0,
             max: Math.ceil(maxYValue * 1.1),
@@ -172,8 +175,14 @@ export class GraficobacklogComponent {
           tooltip: {
             callbacks: {
               label: (context) => {
-                const dataPoint = context.raw as { x: string; y: number };
-                return `Grupo Solucionador - UF: ${dataPoint.x}, Contagem: ${dataPoint.y}`;
+                const dataPoint = context.raw as { x: string; y: number; additionalInfo: string[] };
+                const additionalDataLines = dataPoint.additionalInfo.map(info => `• ${info}`);
+                return [
+                  `Grupo Solucionador - UF: ${dataPoint.x}`,
+                  `Contagem: ${dataPoint.y}`,
+                  `Chamados:`,
+                  ...additionalDataLines // Exibe detalhes um abaixo do outro
+                ];
               }
             }
           }
@@ -181,6 +190,7 @@ export class GraficobacklogComponent {
       }
     });
   }
+  
 }
 
 
