@@ -1,10 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Isso deve ajudar a controlar as dimensões */
+}
+
 .app-container {
-  background-image: url('../../public/midias/wyntech.jpeg'); /* Caminho da sua imagem */
-  background-size: cover; /* Cobre toda a área do container */
-  background-position: center; /* Centraliza a imagem */
+  background-image: url('../../public/midias/wyntech.jpeg');
+  background-size: cover;
+  background-position: center 2px;
   padding: 20px;
-  color: #fff; /* Cor do texto */
-  min-height: 100vh; /* Garante que ocupe pelo menos 100% da altura da tela */
+  color: #fff;
+  min-height: 90vh;
+  overflow: hidden; /* Evita scroll vertical */
 }
 
 .tabs {
@@ -16,22 +23,24 @@
 .tab-button {
   padding: 10px 20px;
   border: none;
-  background-color: rgba(255, 255, 255, 0.8); /* Fundo branco com transparência */
+  background-color: rgba(255, 255, 255, 0.8);
   color: #662626;
   cursor: pointer;
-  border-radius: 5px; /* Bordas arredondadas */
-  transition: background-color 0.3s, transform 0.2s; /* Transições suaves */
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .tab-button:hover {
-  background-color: rgba(240, 240, 240, 0.9); /* Fundo ao passar o mouse */
-  transform: scale(1.05); /* Leve aumento ao passar o mouse */
+  background-color: rgba(240, 240, 240, 0.9);
+  transform: scale(1.05);
 }
 
 .tab-content {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  flex-grow: 1; /* Permite que cresça */
+  overflow: auto; /* Adiciona barra de rolagem se necessário */
 }
 
 .row {
@@ -42,29 +51,29 @@
 .container {
   flex: 1;
   padding: 20px;
-  border-radius: 8px; /* Bordas arredondadas */
+  border-radius: 8px;
   margin: 5px;
   text-align: center;
-  background-color: rgba(255, 255, 255, 0.7); /* Fundo branco com transparência */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  color: #333; /* Cor do texto padrão */
-  overflow: hidden; /* Evita overflow em casos de conteúdo excessivo */
-  display: flex; /* Usar flexbox para o container */
-  flex-direction: column; /* Para alinhar o gráfico em coluna */
-  height: 100%; /* Faz o container ocupar toda a altura disponível */
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Pode ser ajustado */
+  overflow: hidden;
 }
 
 .chart-container {
-  flex-grow: 1; /* Permite que o gráfico ocupe o espaço disponível */
-  display: flex; /* Flex para centralizar o gráfico */
-  justify-content: center; /* Centraliza horizontalmente */
-  align-items: center; /* Centraliza verticalmente */
-  width: 100%; /* Garante que o container do gráfico preencha 100% da largura */
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 canvas {
-  width: 100% !important; /* Garante que o gráfico preencha 100% da largura do container */
-  height: auto; /* Mantém a proporção do gráfico */
+  width: 100% !important;
+  height: auto;
 }
 
 .updating-message {
@@ -72,44 +81,43 @@ canvas {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(255, 255, 255, 0.8); /* Fundo com transparência */
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 20px;
   border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   font-size: 20px;
   text-align: center;
-  z-index: 1000; /* Garante que a mensagem fique em cima de outros elementos */
-  color: #333; /* Cor do texto da mensagem */
+  z-index: 1000;
+  color: #333;
 }
 
-/* Classe para o botão oculto */
 .hidden-button {
-  display: none; /* Mantém o botão oculto */
+  display: none;
 }
 
 .marquee {
   background-color: black;
-  color: #00ff00; /* Verde brilhante */
+  color: #00ff00;
   white-space: nowrap;
   overflow: hidden;
   box-sizing: border-box;
-  height: 50px; /* Altura do letreiro */
+  height: 50px;
   display: flex;
-  align-items: center; /* Centraliza verticalmente o texto */
+  align-items: center;
 }
 
 .marquee-text {
   display: inline-block;
-  font-family: 'Press Start 2P', Arial, Helvetica, sans-serif; /* Aplica a fonte pontilhada */
+  font-family: 'Press Start 2P', Arial, Helvetica, sans-serif;
   animation: marquee 15s linear infinite;
-  text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; /* Efeito de brilho */
+  text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
 }
 
 @keyframes marquee {
   from {
-      transform: translateX(490%); /* Começa fora da tela à direita */
+      transform: translateX(490%);
   }
   to {
-      transform: translateX(-100%); /* Termina fora da tela à esquerda */
+      transform: translateX(-100%);
   }
 }
